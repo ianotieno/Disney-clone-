@@ -1,13 +1,15 @@
 import React, { useEffect, useState,useRef } from 'react'
 import GlobalApi from '../Services/GlobalApi'
 import MovieCard from './MovieCard';
-import { IoChevronBackOutline, IoChevronDownOutline, IoChevronForwardOutline } from 'react-icons/io5';
+import { IoChevronBackOutline,  IoChevronForwardOutline } from 'react-icons/io5';
+import HrMovieCard from './HrMovieCard';
 
 
 
-function MovieList({genreId}) {
+function MovieList({genreId ,index_}) {
   const screenWidth=window.innerWidth;
   const elementRef=useRef();
+
 useEffect(()=>{getMovieByGenreId()},[]);
 const [movieGenre ,setMovieGenre]= useState([])
 const getMovieByGenreId=()=>{
@@ -26,17 +28,21 @@ const getMovieByGenreId=()=>{
 
   return (
     <div>
-      <IoChevronBackOutline className="hidden md:block text-white text-[30px] absolute
-        mx-8 mt-[150px] cursor-pointer " 
+      <IoChevronBackOutline className={`text-[50px] text-white
+           p-2 z-10 cursor-pointer 
+            hidden md:block absolute
+            ${index_%3==0?'mt-[80px]':'mt-[150px]'} `}
         onClick={()=>sliderLeft(elementRef.current)}/>
-        <IoChevronForwardOutline className='hidden md:block text-white text-[30px] absolute
-        mx-8 mt-[150px] cursor-pointer right-0' 
+        <IoChevronForwardOutline className={`hidden md:block text-white text-[30px] absolute
+        cursor-pointer right-0 ${index_%3==0?'mt-[80px]':'mt-[150px]'} `}
         onClick={()=>sliderRight(elementRef.current)}/>
 
 <div className='flex overflow-x-auto gap-8
-    scrollbar-none scroll-smooth pt-4 px-3 pb-4' ref={elementRef}>
-     {movieGenre.map((item,index)=>(
-       <MovieCard movie={item} />
+    scrollbar-none scroll-smooth pt-4 px-3 pb-2' ref={elementRef}>
+     {movieGenre.map((item)=>(
+       <>
+       {index_%3==0?<HrMovieCard movie={item}/>:<MovieCard movie={item} />}
+        </> 
      ))}
     </div>
     </div>
